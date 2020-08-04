@@ -1,21 +1,35 @@
 package helpers
- 
-import "flag"
 
-type Args struct {
-	Message string		`json:"firstname,omitempty"`
-	Path  string 		`json:"lastname,omitempty"`
-}
+import (
+	"flag"
+	"log"
+	"os"
+)
 
+// CreateArguments function that read an object from the CLI input and throws an exit if didn't find it
+func CreateArguments() Arguments {
 
-func Create()  *Args{
+	messagePtr := flag.String("message", "", "The message you want to get an audio file")
+	pathPtr := flag.String("path", "", "The audio folder path to save and check the cache")
 
-	// https://golang.org/pkg/flag/
-	// https://www.digitalocean.com/community/tutorials/how-to-use-the-flag-package-in-go-pt
-	// https://gobyexample.com/command-line-flags
+	if *messagePtr == "" {
+		log.Fatal("The --message attribute is required")
+		os.Exit(1)
+	}
+
+	if *pathPtr == "" {
+		log.Fatal("The --path attribute is required")
+		os.Exit(1)
+	}
+
 	flag.Parse()
 
-	return '', ''
+	return Arguments{Message: *messagePtr, Path: *pathPtr}
+
 }
 
-// voisynt --message "meutexto" --path "C:/www/enbot/encore/audio" --
+// Arguments struct that have message and path properties
+type Arguments struct {
+	Message string
+	Path    string
+}
