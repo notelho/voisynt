@@ -14,6 +14,10 @@
 # Dependency directories (remove the comment below to include it)
 vendor/
 
+# Ide
+.vscode
+.history
+
 # Temporary data
 example
 temp
