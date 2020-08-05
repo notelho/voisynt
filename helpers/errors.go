@@ -11,3 +11,9 @@ func ThrowExit(message string, status int) {
 	log.Fatal(err)
 	os.Exit(status)
 }
+
+func ThrowLog(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
