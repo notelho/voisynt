@@ -23,11 +23,13 @@ func main() {
 
 		if !io.FileExists(path + name) {
 
-			fmt.Println("file not exists")
-
-			// 	file = audio.AudioDownload(message)
+			stream := io.DownloadAudio(message, "en")
+			// file := io.AudioCreate(path, name, stream)
 			// 	audio = audio.AudioDistort(file)
 			// 	io.FileCreate(audio)
+
+			fmt.Println("file not exists")
+			fmt.Println(file)
 
 		}
 
