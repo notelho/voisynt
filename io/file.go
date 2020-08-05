@@ -10,5 +10,3 @@ func FileExists(path string) bool {
 	}
 	return true
 }
-
-// func FileCreate ( path string file file ) {}

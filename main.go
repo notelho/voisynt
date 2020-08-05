@@ -24,7 +24,7 @@ func main() {
 		if !io.FileExists(path + name) {
 
 			stream := io.DownloadAudio(message, "en")
-			// file := io.AudioCreate(path, name, stream)
+			file := io.AudioCreate(path, name, stream)
 			// 	audio = audio.AudioDistort(file)
 			// 	io.FileCreate(audio)
 
