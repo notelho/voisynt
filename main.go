@@ -4,33 +4,32 @@ import (
 	"fmt"
 
 	errors "github.com/enbot/voisynt/errors"
-	helper "github.com/enbot/voisynt/helper"
-	language "github.com/enbot/voisynt/language"
+	helpers "github.com/enbot/voisynt/helpers"
 )
 
 func main() {
 
-	var args = helper.ArgumentsCreate()
+	var args = helpers.ArgumentsCreate()
 	var message = args.Message
 	var path = args.Path
 
 	fmt.Print("message: " + args.Message)
 	fmt.Print("path: " + args.Path)
 
-	if helper.PathExists(path) {
+	if helpers.PathExists(path) {
 
-		var name = language.FixName(message)
+		var name = helpers.FixName(message)
 
-		if !helper.PathExists(path + name) {
+		if !helpers.PathExists(path + name) {
 			file = audio.fetch(message)
 			audio = audio.distortion(file)
-			helper.FileCreate(audio)
+			helpers.FileCreate(audio)
 		}
 
 		fmt.Print(path + name)
 
 	} else {
-		errors.ThrowExit(errors.ErrorPathNotFound)
+		errors.ThrowExit("Provided path not found", 1)
 	}
 
 }

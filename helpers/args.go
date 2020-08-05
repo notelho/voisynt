@@ -1,9 +1,7 @@
-package helper
+package helpers
 
 import (
 	"flag"
-
-	errors "github.com/enbot/voisynt/errors"
 )
 
 func ArgumentsCreate() Arguments {
@@ -11,9 +9,9 @@ func ArgumentsCreate() Arguments {
 	pathPtr := flag.String("path", "", "The audio folder path to save and check the cache")
 	flag.Parse()
 	if *messagePtr == "" {
-		errors.ThrowExit(errors.ErrorAttributeMessage)
+		ThrowExit("The --message attribute is required", 1)
 	} else if *pathPtr == "" {
-		errors.ThrowExit(errors.ErrorAttributePath)
+		ThrowExit("The --path attribute is required", 1)
 	}
 	return Arguments{Message: *messagePtr, Path: *pathPtr}
 }
