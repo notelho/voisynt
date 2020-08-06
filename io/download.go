@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 
 	"github.com/enbot/voisynt/error"
 )
@@ -20,4 +21,14 @@ func DownloadAudio(message string, language string) io.ReadCloser {
 		error.ThrowExit("Failed to download tts file", 1)
 	}
 	return res.Body
+}
+
+func FileFromStream(path string, stream io.ReadCloser) *os.File {
+	file, createErr := os.Create(path)
+	_, copyErr := io.Copy(file, stream)
+	defer stream.Close()
+	if createErr != nil || copyErr != nil {
+		error.ThrowExit("Failed to create audio file from download", 1)
+	}
+	return file
 }

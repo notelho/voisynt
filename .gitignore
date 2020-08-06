@@ -19,9 +19,7 @@ vendor/
 .history
 
 # Temporary data
-example
 temp
-docs
 
 # App cache
 files/*.mp3
