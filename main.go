@@ -11,33 +11,56 @@ import (
 func main() {
 
 	var args = cli.ArgumentsCreate()
-	var message = args.Message
-	var path = args.Path
+	var targetMessage = args.Message // "hello world"
+	var outputDir = args.Output      // "C:\Users\NathanBotelho\www\enbot\encore\audio"
 
-	fmt.Println("message: " + args.Message)
-	fmt.Println("path: " + args.Path)
+	fmt.Println("targetMessage: " + targetMessage)
+	fmt.Println("outputDir: " + outputDir)
 
-	if io.FileExists(path) {
+	fmt.Println("===========================================================")
 
-		var name = io.AudioName(message)
+	if io.FileExists(outputDir) { // "C:\Users\NathanBotelho\www\enbot\encore\audio"
 
-		if !io.FileExists(io.AudioPath(path, name)) {
+		var defaultFileName = io.DefaultAudioName(targetMessage)      // "HELLO_WORLD.mp3"
+		var defaultFilePath = io.FilePath(outputDir, defaultFileName) // "C:\Users\NathanBotelho\www\enbot\encore\audio\HELLO_WORLD.mp3"
 
-			fmt.Println("file not exists")
+		if !io.FileExists(defaultFilePath) {
 
-			stream := io.DownloadAudio(message, "en")
-			file := io.AudioCreate(path, name, stream)
-			// 	audio = audio.AudioDistort(file)
-			// 	io.FileCreate(audio)
+			fmt.Println("===========================================================")
 
-			fmt.Println(file)
+			tempDir := io.TempDir(outputDir) // "C:\Users\NathanBotelho\www\enbot\encore\audio\temp"
+
+			fmt.Println("===========================================================")
+
+			downloadFileName := io.DownloadAudioName(targetMessage)
+			downloadFilePath := io.FilePath(tempDir, downloadFileName)
+			downloadStream := io.DownloadAudio(targetMessage, "en")
+			downloadFile := io.FileFromStream(downloadFilePath, downloadStream)
+
+			fmt.Println("===========================================================")
+
+			var distortFileName = io.DistortedAudioName(targetMessage) // "distort@HELLO_WORLD.mp3"
+			var robotFileName = io.RoboticAudioName(targetMessage)     // "robot@HELLO_WORLD.mp3"
+
+			fmt.Println(downloadFileName)
+			fmt.Println(distortFileName)
+			fmt.Println(robotFileName)
+			fmt.Println(downloadFile)
+
+			fmt.Println("===========================================================")
+
+			// // 	audio = audio.AudioDistort(file)
+			// // 	io.FileCreate(audio)
+
+			// fmt.Println(file)
 
 		}
 
-		fmt.Print(io.AudioPath(path, name))
+		// io.DeleteTempFolder(tempFolder)
+		// fmt.Print(io.AudioPath(path, name))
 
 	} else {
-		error.ThrowExit("Provided path not found", 1)
+		error.ThrowExit("Cant resolve provided output path", 1)
 	}
 
 }
