@@ -8,25 +8,20 @@ import (
 
 func ArgumentsCreate() Arguments {
 	messagePtr := flag.String("message", "", "The message you want to get an audio file")
-	pathPtr := flag.String("path", "", "The audio folder path to save and check the cache")
-	tempPtr := flag.String("temp", "", "The temp folder path to save and check the cache")
+	outputPtr := flag.String("output", "", "The audio folder output to save and check the cache")
 	flag.Parse()
 	if *messagePtr == "" {
 		error.ThrowExit("The --message attribute is required", 1)
-	} else if *pathPtr == "" {
-		error.ThrowExit("The --path attribute is required", 1)
-	} else if *tempPtr == "" {
-		error.ThrowExit("The --temp attribute is required", 1)
+	} else if *outputPtr == "" {
+		error.ThrowExit("The --output attribute is required", 1)
 	}
 	return Arguments{
 		Message: *messagePtr,
-		Path:    *pathPtr,
-		Temp:    *tempPtr,
+		Output:  *outputPtr,
 	}
 }
 
 type Arguments struct {
 	Message string
-	Path    string
-	Temp    string
+	Output  string
 }
