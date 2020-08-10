@@ -6,7 +6,7 @@ import (
 	"github.com/enbot/voisynt/error"
 )
 
-func ArgumentsCreate() Arguments {
+func CreateArguments() Arguments {
 	messagePtr := flag.String("message", "", "The message you want to get an audio file")
 	outputPtr := flag.String("output", "", "The audio folder output to save and check the cache")
 	flag.Parse()
