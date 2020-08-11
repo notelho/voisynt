@@ -12,40 +12,26 @@ import (
 func main() {
 
 	var args = cli.CreateArguments()
-	var targetMessage = args.Message // "hello world"
-	var outputDir = args.Output      // "C:\Users\NathanBotelho\www\enbot\encore\audio"
+	var targetMessage = args.Message
+	var outputDir = args.Output
 
 	fmt.Println("targetMessage: " + targetMessage)
 	fmt.Println("outputDir: " + outputDir)
 
-	fmt.Println("===========================================================")
+	if io.FileExists(outputDir) {
 
-	if io.FileExists(outputDir) { // "C:\Users\NathanBotelho\www\enbot\encore\audio"
-
-		var fileName = audio.DefaultAudioName(targetMessage) // "HELLO_WORLD.mp3"
-		var filePath = io.FilePath(outputDir, fileName)      // "C:\Users\NathanBotelho\www\enbot\encore\audio\HELLO_WORLD.mp3"
+		var fileName = audio.AudioName(targetMessage)
+		var filePath = io.FilePath(outputDir, fileName)
 
 		if !io.FileExists(filePath) {
-
-			fmt.Println("===========================================================")
-
-			tempDir := io.TempDir(outputDir) // "C:\Users\NathanBotelho\www\enbot\encore\audio\temp"
-
-			audio.CreateBaseFiles(fileName, tempDir)
-			audio.CreateRoboticFiles(fileName, tempDir)
-			audio.CreateMergedFiles(fileName, tempDir)
-			audio.CreateFinalFile(fileName, outputDir)
-
-			// io.MoveFile( final audio , output dir )
-			// io.RenameFile ()
-
-			// // 	audio = audio.AudioDistort(file)
-
-			// io.DeleteTempFolder(tempDir)
-
+			tempDir := io.TempDir(outputDir)
+			audio.DownloadVoice(targetMessage, fileName, tempDir)
+			audio.SynthVoice(fileName, tempDir)
+			audio.CreateVoice(fileName, outputDir)
+			io.RemoveDir(tempDir)
 		}
 
-		// fmt.Print(io.AudioPath(path, name))
+		fmt.Print(io.FilePath(filePath, fileName))
 
 	} else {
 		error.ThrowExit("Cant resolve provided output path", 1)

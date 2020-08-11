@@ -15,6 +15,10 @@ func TempDir(path string) string {
 	return name
 }
 
+func RemoveDir(path string) {
+	defer os.RemoveAll(path)
+}
+
 func FileExists(path string) bool {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return false
