@@ -15,7 +15,7 @@ func normalizeName(name string) string {
 	return name
 }
 
-func DefaultAudioName(name string) string {
+func AudioName(name string) string {
 	return normalizeName(name) + extension
 }
 
