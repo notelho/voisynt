@@ -3,29 +3,43 @@ package audio
 import (
 	"os"
 
+	"github.com/enbot/voisynt/cli"
 	"github.com/enbot/voisynt/io"
 )
 
-func DownloadVoice(targetMessage string, fileName string, tempDir string) *os.File {
-	downloadFileName := DownloadAudioName(targetMessage)
-	downloadFilePath := io.FilePath(tempDir, downloadFileName)
-	downloadStream := io.DownloadAudio(targetMessage, "en")
+func DownloadVoice(audioInfo AudioInfo, outputDir string) *os.File {
+	downloadMessage := audioInfo.Message
+	downloadStream := io.DownloadAudio(downloadMessage, "en")
+	downloadFilePath := io.FilePath(outputDir, audioInfo.Downloaded)
 	downloadFile := io.FileFromStream(downloadFilePath, downloadStream)
 	return downloadFile
 }
 
-func SynthVoice(fileName string, tempDir string) {
+func VoiceSynth(audioInfo AudioInfo, tempDir string, outputDir string) {
 
-	// audio.CreateBaseFiles(fileName, tempDir)
-	// audio.CreateRoboticFiles(fileName, tempDir)
-	// audio.CreateMergedFiles(fileName, tempDir)
-	// audio.CreateFinalFile(fileName, outputDir)
+	// cli.SynthThinVoice(audioInfo.Downloaded, audioInfo.Thin, tempDir)
+	cli.SynthThickVoice(audioInfo.Downloaded, audioInfo.Thick, tempDir)
+	// SynthRobotVoice(audioInfo.Downloaded, audioInfo.Robot, tempDir)
+	// SynthRobotVoice(audioInfo.Thin, audioInfo.ThinRobot, tempDir)
+	// SynthRobotVoice(audioInfo.Thick, audioInfo.ThickRobot, tempDir)
 
-}
+	// audio.SynthRobot(audioInfo, tempDir)
+	// audio.MergeVoices(audioInfo, tempDir)
+	// audio.SynthFinal(audioInfo, outputDir)
 
-func CreateVoice(fileName string, outputDir string) {
-	// > downloaded > thin e thick
-	// > thick-robot , downloaded-robot e thin-robot
+	// thinFileName := AudioNamePrefix(fileName, "thin")
+	// thickFileName := AudioNamePrefix(fileName, "thick")
+	// SynthThinVoice(thinFileName, tempDir)
+	// SynthThickVoice(thickFileName, tempDir)
+
+	// thinRobotFileName := AudioNamePrefix(fileName, "thin-robot")
+	// thickRobotFileName := AudioNamePrefix(fileName, "thick-robot")
+	// downloadRobotFileName := AudioNamePrefix(fileName, "downloaded-robot")
+	// SynthRobotVoice(thinRobotFileName, tempDir)
+	// SynthRobotVoice(thickRobotFileName, tempDir)
+	// SynthRobotVoice(downloadRobotFileName, tempDir)
+
 	// > merge thick e thin > merge downlaoded e thick-thin
+
 	// > mono > thick again
 }

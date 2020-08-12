@@ -25,10 +25,10 @@ func main() {
 
 		if !io.FileExists(filePath) {
 			tempDir := io.TempDir(outputDir)
-			audio.DownloadVoice(targetMessage, fileName, tempDir)
-			audio.SynthVoice(fileName, tempDir)
-			audio.CreateVoice(fileName, outputDir)
-			io.RemoveDir(tempDir)
+			audioInfo := audio.CreateAudioInfo(targetMessage)
+			audio.DownloadVoice(audioInfo, tempDir)
+			audio.VoiceSynth(audioInfo, tempDir, outputDir)
+			// io.RemoveDir(tempDir)
 		}
 
 		fmt.Print(io.FilePath(filePath, fileName))

@@ -7,26 +7,51 @@ import (
 
 var extension string = ".mp3"
 
-func normalizeName(name string) string {
-	name = strings.ReplaceAll(name, " ", "_")
+func normalizeMessage(message string) string {
+	message = strings.ReplaceAll(message, " ", "_")
 	reg, _ := regexp.Compile("[^a-zA-Z0-9_]+")
-	name = reg.ReplaceAllString(name, "")
-	name = strings.ToUpper(name)
-	return name
+	message = reg.ReplaceAllString(message, "")
+	message = strings.ToUpper(message)
+	return message
 }
 
-func AudioName(name string) string {
-	return normalizeName(name) + extension
+func AudioName(message string) string {
+	return normalizeMessage(message) + extension
 }
 
-func DownloadAudioName(name string) string {
-	return "download@" + normalizeName(name) + extension
+func AudioNamePrefix(name string, prefix string) string {
+	return prefix + "@" + name
 }
 
-func DistortedAudioName(name string) string {
-	return "distorted@" + normalizeName(name) + extension
+func CreateAudioInfo(message string) AudioInfo {
+	var output = AudioName(message)
+	return AudioInfo{
+		Message:             message,
+		Output:              output,
+		Downloaded:          AudioNamePrefix(output, "downloaded"),
+		Thin:                AudioNamePrefix(output, "thin"),
+		Thick:               AudioNamePrefix(output, "thick"),
+		Robot:               AudioNamePrefix(output, "robot"),
+		ThinRobot:           AudioNamePrefix(output, "thin-robot"),
+		ThickRobot:          AudioNamePrefix(output, "thick-robot"),
+		MergeThickThin:      AudioNamePrefix(output, "merge-thick-thin"),
+		MergeThickThinRobot: AudioNamePrefix(output, "merge-thick-thin-robot"),
+		MonoOutput:          AudioNamePrefix(output, "mono-output-file"),
+		MonoOutputThick:     AudioNamePrefix(output, "mono-output-thick"),
+	}
 }
 
-func RoboticAudioName(name string) string {
-	return "robotic@" + normalizeName(name) + extension
+type AudioInfo struct {
+	Message             string
+	Output              string
+	Downloaded          string
+	Thin                string
+	Thick               string
+	Robot               string
+	ThinRobot           string
+	ThickRobot          string
+	MergeThickThin      string
+	MergeThickThinRobot string
+	MonoOutput          string
+	MonoOutputThick     string
 }
