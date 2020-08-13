@@ -7,39 +7,35 @@ import (
 	"github.com/enbot/voisynt/io"
 )
 
-func DownloadVoice(audioInfo AudioInfo, outputDir string) *os.File {
+func DownloadVoice(audioInfo AudioInfo, tempDir string) *os.File {
 	downloadMessage := audioInfo.Message
 	downloadStream := io.DownloadAudio(downloadMessage, "en")
-	downloadFilePath := io.FilePath(outputDir, audioInfo.Downloaded)
-	downloadFile := io.FileFromStream(downloadFilePath, downloadStream)
+	downloadPath := io.FilePath(tempDir, audioInfo.Downloaded)
+	downloadFile := io.FileFromStream(downloadPath, downloadStream)
 	return downloadFile
 }
 
 func VoiceSynth(audioInfo AudioInfo, tempDir string, outputDir string) {
+	thinPath := io.FilePath(tempDir, audioInfo.Thin)
+	thickPath := io.FilePath(tempDir, audioInfo.Thick)
+	robotPath := io.FilePath(tempDir, audioInfo.Robot)
+	downloadPath := io.FilePath(tempDir, audioInfo.Downloaded)
 
-	// cli.SynthThinVoice(audioInfo.Downloaded, audioInfo.Thin, tempDir)
-	cli.SynthThickVoice(audioInfo.Downloaded, audioInfo.Thick, tempDir)
-	// SynthRobotVoice(audioInfo.Downloaded, audioInfo.Robot, tempDir)
-	// SynthRobotVoice(audioInfo.Thin, audioInfo.ThinRobot, tempDir)
-	// SynthRobotVoice(audioInfo.Thick, audioInfo.ThickRobot, tempDir)
+	cli.SynthThinVoice(downloadPath, thinPath)
+	cli.SynthThickVoice(downloadPath, thickPath)
+	cli.SynthRobotVoice(downloadPath, robotPath)
 
-	// audio.SynthRobot(audioInfo, tempDir)
-	// audio.MergeVoices(audioInfo, tempDir)
-	// audio.SynthFinal(audioInfo, outputDir)
+	thinRobotPath := io.FilePath(tempDir, audioInfo.ThinRobot)
+	thickRobotPath := io.FilePath(tempDir, audioInfo.ThickRobot)
 
-	// thinFileName := AudioNamePrefix(fileName, "thin")
-	// thickFileName := AudioNamePrefix(fileName, "thick")
-	// SynthThinVoice(thinFileName, tempDir)
-	// SynthThickVoice(thickFileName, tempDir)
+	cli.SynthRobotVoice(thinPath, thinRobotPath)
+	cli.SynthRobotVoice(thickPath, thickRobotPath)
 
-	// thinRobotFileName := AudioNamePrefix(fileName, "thin-robot")
-	// thickRobotFileName := AudioNamePrefix(fileName, "thick-robot")
-	// downloadRobotFileName := AudioNamePrefix(fileName, "downloaded-robot")
-	// SynthRobotVoice(thinRobotFileName, tempDir)
-	// SynthRobotVoice(thickRobotFileName, tempDir)
-	// SynthRobotVoice(downloadRobotFileName, tempDir)
+	mergeThickThinPath := io.FilePath(tempDir, audioInfo.MergeThickThin)
+	mergeThickThinRobotPath := io.FilePath(tempDir, audioInfo.MergeThickThinRobot)
+	outputPath := io.FilePath(outputDir, audioInfo.Output)
 
-	// > merge thick e thin > merge downlaoded e thick-thin
-
-	// > mono > thick again
+	cli.MergeVoiceFiles(thickRobotPath, 1, thinRobotPath, 1, mergeThickThinPath)
+	cli.MergeVoiceFiles(robotPath, 2, mergeThickThinPath, 0.5, mergeThickThinRobotPath)
+	cli.SynthThickVoice(mergeThickThinRobotPath, outputPath)
 }

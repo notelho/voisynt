@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-
 	var args = cli.CreateArguments()
 	var targetMessage = args.Message
 	var outputDir = args.Output
@@ -36,5 +35,4 @@ func main() {
 	} else {
 		error.ThrowExit("Cant resolve provided output path", 1)
 	}
-
 }

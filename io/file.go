@@ -8,9 +8,9 @@ import (
 )
 
 func TempDir(path string) string {
-	name, err := ioutil.TempDir(path, "temp")
+	name, err := ioutil.TempDir(path, "tmpdir")
 	if err != nil {
-		error.ThrowExit("Failed to create audio file from download", 1)
+		error.ThrowExit("Failed to create a temporary directory", 1)
 	}
 	return name
 }
