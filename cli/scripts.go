@@ -1,35 +1,48 @@
 package cli
 
-import (
-	"os/exec"
+import "strconv"
 
-	"github.com/enbot/voisynt/error"
-	"github.com/enbot/voisynt/io"
-)
-
-func SynthThickVoice(inputName string, outputName string, outputDir string) {
-	inputAudioPath := io.FilePath(outputDir, inputName)
-	outputAudioPath := io.FilePath(outputDir, outputName)
-
-	err := exec.Command("ffmpeg", "-i", inputAudioPath, "-af", "asetrate=44100*0.25,aresample=44100,atempo=2.17", outputAudioPath).Run()
-
-	if err != nil {
-		error.ThrowExit("Failed to create "+outputName+" with "+inputName, 1)
-	}
+func SynthThinVoice(input string, output string) {
+	ffmpeg(
+		"-i",
+		input,
+		"-af",
+		"asetrate=44100*1.07,atempo=0.5",
+		output,
+	)
 }
 
-// func SynthThinVoice(inputName string, outputName string, outputDir string) {
-// 	cli.exec("ffmpeg -i test.mp3 -af \"asetrate=44100*1.07,atempo=0.5\" thin.mp3")
-// }
+func SynthThickVoice(input string, output string) {
+	ffmpeg(
+		"-i",
+		input,
+		"-af",
+		"asetrate=44100*0.25,aresample=44100,atempo=2.17",
+		output,
+	)
+}
 
-// func SynthRobotVoice(inputName string, outputName string, outputDir string) {
-// 	cli.exec("ffmpeg -i test.mp3 -filter_complex "afftfilt=real='hypot(re,im)*sin(0)':imag='hypot(re,im)*cos(0)':win_size=512:overlap=0.75" robot.mp3")
-// }
+func SynthRobotVoice(input string, output string) {
+	ffmpeg(
+		"-i",
+		input,
+		"-filter_complex",
+		"afftfilt=real='hypot(re,im)*sin(0)':imag='hypot(re,im)*cos(0)':win_size=512:overlap=0.75",
+		output,
+	)
+}
 
-// func MergeManyFiles(inputName string, outputName string, outputDir string) {
-// 	// cli.exec("")
-// }
-
-// func MergeFilesAdjustVolumn(inputName string, outputName string, outputDir string) {
-// 	// cli.exec("")
-// }
+func MergeVoiceFiles(file1 string, volume1 float64, file2 string, volume2 float64, output string) {
+	ffmpeg(
+		"-i",
+		file1,
+		"-i",
+		file2,
+		"-filter_complex",
+		"[0:a]volume="+strconv.FormatFloat(volume1, 'f', 2, 64)+"[a1];[1:a]volume="+strconv.FormatFloat(volume2, 'f', 2, 64)+"[a2];[a1][a2]amerge",
+		"-c:v",
+		"copy",
+		"-shortest",
+		output,
+	)
+}
