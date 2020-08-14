@@ -11,26 +11,28 @@ import (
 
 func main() {
 	var args = cli.CreateArguments()
-	var targetMessage = args.Message
+	var audioMessage = args.Message
 	var outputDir = args.Output
 
-	fmt.Println("targetMessage: " + targetMessage)
+	fmt.Println("audioMessage: " + audioMessage)
 	fmt.Println("outputDir: " + outputDir)
 
 	if io.FileExists(outputDir) {
 
-		var fileName = audio.AudioName(targetMessage)
-		var filePath = io.FilePath(outputDir, fileName)
+		var fileName = io.AudioFileName(audioMessage)
+		var filePath = io.Path(outputDir, fileName)
 
 		if !io.FileExists(filePath) {
 			tempDir := io.TempDir(outputDir)
-			audioInfo := audio.CreateAudioInfo(targetMessage)
-			audio.DownloadVoice(audioInfo, tempDir)
-			audio.VoiceSynth(audioInfo, tempDir, outputDir)
-			// io.RemoveDir(tempDir)
+			audioConfig := audio.CreateAudioConfig(audioMessage, "en")
+			audioName := io.CreateAudioName(audioMessage)
+			dirName := io.CreateAudioDir(outputDir, tempDir)
+			audio.VoiceDownload(audioName, dirName, audioConfig)
+			audio.VoiceSynth(audioName, dirName)
+			io.RemoveDir(tempDir)
 		}
 
-		fmt.Print(io.FilePath(filePath, fileName))
+		fmt.Print(io.Path(filePath, fileName))
 
 	} else {
 		error.ThrowExit("Cant resolve provided output path", 1)

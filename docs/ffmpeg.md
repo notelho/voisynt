@@ -12,6 +12,11 @@ ffmpeg -i test.mp3 -af "asetrate=44100*0.25,aresample=44100,atempo=2.17" thick.m
 ffmpeg -i test.mp3 -af "asetrate=44100*0.6,atempo=0.9" thin.mp3
 ```
 
+### Download
+```bash
+ffmpeg -i "http://streaming.foo.com/" -c copy output.mp3
+```
+
 ### Make robotic
 ```bash
 ffmpeg -i thick.mp3 -filter_complex "afftfilt=real='hypot(re,im)*sin(0)':imag='hypot(re,im)*cos(0)':win_size=512:overlap=0.75" robot-thick.mp3

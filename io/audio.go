@@ -10,7 +10,6 @@ var extension string = ".mp3"
 type AudioType = string
 
 type AudioName struct {
-	Message
 	Output              AudioType
 	Downloaded          AudioType
 	Thin                AudioType
