@@ -1,18 +1,16 @@
 package error
 
 import (
-	"errors"
 	"log"
-	"os"
 )
 
-func ThrowExit(message string, status int) {
-	err := errors.New(message)
-	log.Fatal(err)
-	os.Exit(status)
+func LogFatalMessage(err string) {
+	if err != "" {
+		log.Fatal(err)
+	}
 }
 
-func ThrowLog(err error) {
+func LogFatalError(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
