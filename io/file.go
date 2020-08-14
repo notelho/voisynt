@@ -26,6 +26,6 @@ func FileExists(path string) bool {
 	return true
 }
 
-func FilePath(path string, name string) string {
-	return path + "\\" + name
+func Path(path DirType, name AudioType) string {
+	return path + name
 }
