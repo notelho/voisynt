@@ -6,6 +6,13 @@ import (
 	"github.com/enbot/voisynt/error"
 )
 
+type ArgumentsType = string
+
+type Arguments struct {
+	Message ArgumentsType
+	Output  ArgumentsType
+}
+
 func CreateArguments() Arguments {
 	messagePtr := flag.String("message", "", "The message you want to get an audio file")
 	outputPtr := flag.String("output", "", "The audio folder output to save and check the cache")
@@ -19,9 +26,4 @@ func CreateArguments() Arguments {
 		Message: *messagePtr,
 		Output:  *outputPtr,
 	}
-}
-
-type Arguments struct {
-	Message string
-	Output  string
 }

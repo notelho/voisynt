@@ -2,6 +2,16 @@ package cli
 
 import "strconv"
 
+func CopyFromStreaming(link string, output string) {
+	ffmpeg(
+		"-i",
+		link,
+		"-c",
+		"copy",
+		output,
+	)
+}
+
 func SynthThinVoice(input string, output string) {
 	ffmpeg(
 		"-i",
