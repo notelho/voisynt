@@ -1,39 +1,29 @@
 package audio
 
 import (
-	"os"
-
 	"github.com/enbot/voisynt/cli"
 	"github.com/enbot/voisynt/io"
 )
 
-func DownloadVoice(audioInfo AudioInfo, tempDir string) *os.File {
-	downloadMessage := audioInfo.Message
-	downloadStream := io.DownloadAudio(downloadMessage, "en")
-	downloadPath := io.FilePath(tempDir, audioInfo.Downloaded)
-	downloadFile := io.FileFromStream(downloadPath, downloadStream)
-	return downloadFile
-}
-
-func VoiceSynth(audioInfo AudioInfo, tempDir string, outputDir string) {
-	thinPath := io.FilePath(tempDir, audioInfo.Thin)
-	thickPath := io.FilePath(tempDir, audioInfo.Thick)
-	robotPath := io.FilePath(tempDir, audioInfo.Robot)
-	downloadPath := io.FilePath(tempDir, audioInfo.Downloaded)
+func VoiceSynth(audioName io.AudioName, dirName io.AudioDir) {
+	thinPath := io.Path(dirName.Tmp, audioName.Thin)
+	thickPath := io.Path(dirName.Tmp, audioName.Thick)
+	robotPath := io.Path(dirName.Tmp, audioName.Robot)
+	downloadPath := io.Path(dirName.Tmp, audioName.Downloaded)
 
 	cli.SynthThinVoice(downloadPath, thinPath)
 	cli.SynthThickVoice(downloadPath, thickPath)
 	cli.SynthRobotVoice(downloadPath, robotPath)
 
-	thinRobotPath := io.FilePath(tempDir, audioInfo.ThinRobot)
-	thickRobotPath := io.FilePath(tempDir, audioInfo.ThickRobot)
+	thinRobotPath := io.Path(dirName.Tmp, audioName.ThinRobot)
+	thickRobotPath := io.Path(dirName.Tmp, audioName.ThickRobot)
 
 	cli.SynthRobotVoice(thinPath, thinRobotPath)
 	cli.SynthRobotVoice(thickPath, thickRobotPath)
 
-	mergeThickThinPath := io.FilePath(tempDir, audioInfo.MergeThickThin)
-	mergeThickThinRobotPath := io.FilePath(tempDir, audioInfo.MergeThickThinRobot)
-	outputPath := io.FilePath(outputDir, audioInfo.Output)
+	mergeThickThinPath := io.Path(dirName.Tmp, audioName.MergeThickThin)
+	mergeThickThinRobotPath := io.Path(dirName.Tmp, audioName.MergeThickThinRobot)
+	outputPath := io.Path(dirName.Output, audioName.Output)
 
 	cli.MergeVoiceFiles(thickRobotPath, 1, thinRobotPath, 1, mergeThickThinPath)
 	cli.MergeVoiceFiles(robotPath, 2, mergeThickThinPath, 0.5, mergeThickThinRobotPath)
