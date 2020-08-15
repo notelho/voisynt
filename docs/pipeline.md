@@ -1,1 +1,0 @@
-ffmpeg -i robot.mp3 -i thick-thin.mp3 -filter_complex "[0:a]volume=1[a1];[1:a]volume=1[a2];[a1][a2]amerge" -c:v copy -shortest final.mp3
