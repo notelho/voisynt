@@ -1,13 +1,15 @@
 package error
 
-import (
-	"errors"
-	"log"
-	"os"
-)
+import "os"
 
-func ThrowExit(message string, status int) {
-	err := errors.New(message)
-	log.Fatal(err)
-	os.Exit(status)
+var deletionPaths = make([]string, 0)
+
+func DeleteOnError(path string) {
+	deletionPaths = append(deletionPaths, path)
+}
+
+func TriggerDeletion() {
+	for _, path := range deletionPaths {
+		os.RemoveAll(path)
+	}
 }

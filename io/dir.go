@@ -7,6 +7,8 @@ type AudioDir struct {
 	Tmp    DirType
 }
 
+var TmpDir string = ".voisynt"
+
 func CreateAudioDir(outputDir string, tmpDir string) AudioDir {
 	return AudioDir{
 		Output: outputDir + "\\",
