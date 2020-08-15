@@ -2,16 +2,19 @@ package error
 
 import (
 	"log"
+	"os"
 )
 
-func LogFatalMessage(err string) {
-	if err != "" {
-		log.Fatal(err)
-	}
+func Throw(err *StatusError) {
+	TriggerDeletion()
+	Fatal(err)
+	Exit(err)
 }
 
-func LogFatalError(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
+func Exit(err *StatusError) {
+	os.Exit(err.Code)
+}
+
+func Fatal(err *StatusError) {
+	log.Fatal(err.Message)
 }

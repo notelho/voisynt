@@ -1,18 +1,19 @@
 package io
 
 import (
-	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	"github.com/enbot/voisynt/error"
 )
 
-func TempDir(path string) string {
-	name, err := ioutil.TempDir(path, "tmpdir")
+func CreateDir(dir string) string {
+	path := filepath.Join(dir, TmpDir)
+	err := os.MkdirAll(path, 0755)
 	if err != nil {
-		error.ThrowExit("Failed to create a temporary directory", 1)
+		error.Throw(error.Exceptions.TempDirFailed)
 	}
-	return name
+	return path
 }
 
 func RemoveDir(path string) {
@@ -27,5 +28,5 @@ func FileExists(path string) bool {
 }
 
 func Path(path DirType, name AudioType) string {
-	return path + name
+	return filepath.Join(path, name)
 }
