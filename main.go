@@ -10,31 +10,29 @@ import (
 )
 
 func main() {
-	var args = cli.CreateArguments()
-	var audioMessage = args.Message
-	var outputDir = args.Output
+	args := cli.CreateArguments()
+	audioMessage := args.Message
+	outputDir := args.Output
+	tmpDir := args.Tmp
 
-	fmt.Println("audioMessage: " + audioMessage)
-	fmt.Println("outputDir: " + outputDir)
-
-	if io.FileExists(outputDir) {
-
-		var fileName = io.AudioFileName(audioMessage)
-		var filePath = io.Path(outputDir, fileName)
-
-		if !io.FileExists(filePath) {
-			tempDir := io.TempDir(outputDir)
-			audioConfig := audio.CreateAudioConfig(audioMessage, "en")
-			audioName := io.CreateAudioName(audioMessage)
-			dirName := io.CreateAudioDir(outputDir, tempDir)
-			audio.VoiceDownload(audioName, dirName, audioConfig)
-			audio.VoiceSynth(audioName, dirName)
-			io.RemoveDir(tempDir)
-		}
-
-		fmt.Print(io.Path(filePath, fileName))
-
-	} else {
-		error.ThrowExit("Cant resolve provided output path", 1)
+	if !io.FileExists(outputDir) {
+		error.Throw(error.Exceptions.PathNotFound)
 	}
+
+	fileName := io.AudioFileName(audioMessage)
+	filePath := io.Path(outputDir, fileName)
+	tempPath := io.Path(outputDir, tmpDir)
+	error.DeleteOnError(tempPath)
+
+	if !io.FileExists(filePath) {
+		tmpDir := io.CreateDir(outputDir)
+		audioConfig := audio.CreateAudioConfig(audioMessage, "en")
+		audioName := io.CreateAudioName(audioMessage)
+		dirName := io.CreateAudioDir(outputDir, tmpDir)
+		audio.VoiceDownload(audioName, dirName, audioConfig)
+		audio.VoiceSynth(audioName, dirName)
+		io.RemoveDir(tmpDir)
+	}
+
+	fmt.Print(io.Path(filePath, fileName))
 }
