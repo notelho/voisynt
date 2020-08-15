@@ -11,16 +11,11 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Dependency directories (remove the comment below to include it)
-vendor/
+# App cache
+files/*.mp3
+languages/*.mp3
+temp/*.mp3
 
 # Ide
 .vscode
 .history
-
-# Temporary data
-temp
-
-# App cache
-files/*.mp3
-languages/*.mp3
