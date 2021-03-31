@@ -1,8 +1,8 @@
 package audio
 
 import (
-	"github.com/enbot/voisynt/cli"
-	"github.com/enbot/voisynt/io"
+	"github.com/notelho/voisynt/cli"
+	"github.com/notelho/voisynt/io"
 )
 
 func VoiceSynth(audioName io.AudioName, dirName io.AudioDir) {

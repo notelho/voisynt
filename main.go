@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/enbot/voisynt/audio"
-	"github.com/enbot/voisynt/cli"
-	"github.com/enbot/voisynt/error"
-	"github.com/enbot/voisynt/io"
+	"github.com/notelho/voisynt/audio"
+	"github.com/notelho/voisynt/cli"
+	"github.com/notelho/voisynt/error"
+	"github.com/notelho/voisynt/io"
 )
 
 func main() {

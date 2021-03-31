@@ -3,8 +3,8 @@ package audio
 import (
 	"net/url"
 
-	"github.com/enbot/voisynt/cli"
-	"github.com/enbot/voisynt/io"
+	"github.com/notelho/voisynt/cli"
+	"github.com/notelho/voisynt/io"
 )
 
 func CreateAudioLink(message string, language string) string {

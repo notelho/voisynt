@@ -3,8 +3,8 @@ package cli
 import (
 	"flag"
 
-	"github.com/enbot/voisynt/error"
-	"github.com/enbot/voisynt/io"
+	"github.com/notelho/voisynt/error"
+	"github.com/notelho/voisynt/io"
 )
 
 type ArgumentsType = string

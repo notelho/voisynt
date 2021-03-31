@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/enbot/voisynt/error"
+	"github.com/notelho/voisynt/error"
 )
 
 func CreateDir(dir string) string {

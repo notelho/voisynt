@@ -1,3 +1,3 @@
-module github.com/enbot/voisynt
+module github.com/notelho/voisynt
 
 go 1.14

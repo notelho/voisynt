@@ -3,7 +3,7 @@ package cli
 import (
 	"os/exec"
 
-	"github.com/enbot/voisynt/error"
+	"github.com/notelho/voisynt/error"
 )
 
 func ffmpeg(args ...string) {
