@@ -4,10 +4,12 @@ Voisynth is a golang command line program that transforms text into a robot voic
 ## Requirements
 This app requires ffmpeg and was tested with the version `git-2020-07-30-134a48a`. You can get this version [here](https://www.gyan.dev/ffmpeg/builds/packages/), but any similar version should work fine. You can get this ffmpeg release in the official [site](https://www.ffmpeg.org/download.html#releases) or in it's official [github](https://github.com/FFmpeg/FFmpeg). After downloading the binary executable in your environment variables.
 
+> If you are a windows user, you can get the `git-2020-07-30-134a48a` version in [voisynt binaries of v1.0.0 version](https://github.com/notelho/voisynt/releases/tag/v1.0.0)
+
 After the installation check with CLI command:
 
 ```bash
-ffmpeg -version # ffmpeg version git-2020-07-30-134a48a Copyright (c) 2000-2020 the FFmpeg developers built with gcc 10.2.1 (GCC) 20200726
+ffmpeg -version # ffmpeg version git-2020-07-30-134a48a [...]
 ```
 
 ## Usage
