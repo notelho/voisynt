@@ -11,10 +11,8 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# App cache
-files/*.mp3
-languages/*.mp3
-temp/*.mp3
+# Media
+*.mp3
 
 # Ide
 .vscode
